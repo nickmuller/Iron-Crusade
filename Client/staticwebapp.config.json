@@ -1,5 +1,33 @@
 {
     "navigationFallback": {
         "rewrite": "/index.html"
-    }
+    },
+    "responseOverrides": {
+        "401": {
+            "redirect": "/login",
+            "statusCode": 302
+        }
+    },
+    "routes": [
+        {
+            "route": "/*",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/login",
+            "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer"
+        },
+        {
+            "route": "/.auth/login/github",
+            "statusCode": 404
+        },
+        {
+            "route": "/.auth/login/x",
+            "statusCode": 404
+        },
+        {
+            "route": "/logout",
+            "redirect": "/.auth/logout"
+        }
+    ]
 }
