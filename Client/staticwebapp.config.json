@@ -10,10 +10,6 @@
     },
     "routes": [
         {
-            "route": "/*",
-            "allowedRoles": ["authenticated"]
-        },
-        {
             "route": "/login",
             "redirect": "/.auth/login/aad?post_login_redirect_uri=.referrer"
         },
@@ -28,6 +24,10 @@
         {
             "route": "/logout",
             "redirect": "/.auth/logout"
+        },
+        {
+            "route": "/*",
+            "allowedRoles": ["authenticated"]
         }
     ]
 }
