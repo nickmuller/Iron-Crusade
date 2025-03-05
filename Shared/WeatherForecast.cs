@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlazorApp.Shared
+namespace IronCrusade.Shared
 {
     public class WeatherForecast
     {

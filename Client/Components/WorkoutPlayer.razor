@@ -1,0 +1,279 @@
+﻿@implements IDisposable
+@inject NavigationManager Navigation
+@*@inject GoogleClient GoogleClient*@
+@inject ILogger<WorkoutPlayer> Logger
+@inject IJSRuntime jsRuntime
+
+@if (player != null)
+{
+    <div class="workout-player @(player.IsKlaar ? "is-klaar" : "") @(player.Oefeningnummer == 1 ? "is-warmup" : "")">
+        <Header>
+            <Left>
+                <a href="" class="btn btn-link home-link"><i class="fa-solid fa-arrow-left"></i></a>
+            </Left>
+            <Middle>
+                @if (player.IsKlaar)
+                {
+                    <h1 class="header-title">
+                        Hoppa!
+                    </h1>
+                }
+                else
+                {
+                    <h1 class="header-title">
+                        @player.Oefening.Naam
+                    </h1>
+                }
+            </Middle>
+            <Right>
+                <LoginDisplay />
+            </Right>
+        </Header>
+
+        <div class="progress">
+            <div class="progress-bar" style="width: @(player.PercentageSetsAfgerond)%"></div>
+        </div>
+
+        <div class="oefening-afbeelding">
+            @if (player.IsKlaar)
+            {
+                <img src="images/yeah.gif" alt="Yeah"/>
+            }
+            else if (player.Oefening.InitieelTonen == InitieelTonen.Afbeelding)
+            {
+                <img src="@player.Oefening.AfbeeldingUrl" alt="@player.Oefening.Naam"/>
+            }
+            else if (player.Oefening.InitieelTonen == InitieelTonen.Video)
+            {
+                <div class="embed-container">
+                    <embed src="@player.Oefening.VideoUrl" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+                </div>
+            }
+
+            @if (player.IsPauze)
+            {
+                <div class="pauze-achtergrond">
+                    <div class="pauze">
+                        Pauze
+                    </div>
+                </div>
+
+                @if (player.SetNummer == player.Oefening.AantalSets && player.Volgende != default)
+                {
+                    <div class="volgende-set-preview">
+                        <img src="@player.Volgende.AfbeeldingUrl" alt="@player.Volgende.Naam" />
+                        <div class="naam-volgende-oefening">
+                            @player.Volgende.Naam
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="oefening-footer">
+            @if (player.IsKlaar)
+            {
+                <div class="workout-opslaan">
+                    @if (saving)
+                    {
+                        <div>
+                            <Spinner/> Opslaan...
+                        </div>
+                    }
+                    else if (player.IsKlaar)
+                    {
+                        <div>
+                            Workout is opgeslagen!
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="oefening-info">
+                <Stack Class="oefening-sets-en-herhalingen">
+                    <p class="oefening-herhalingen">
+                        <span>@(player.Oefening.AantalHerhalingen)x</span>
+                    </p>
+
+                    <p class="oefening-sets">
+                        <span>@player.SetNummer&nbsp;/&nbsp;@player.Oefening.AantalSets</span>
+                    </p>
+                </Stack>
+
+                <ul class="oefening-tips">
+                    @foreach (var tip in player.Oefening.Tips)
+                    {
+                        <li>@tip</li>
+                    }
+                </ul>
+            </div>
+
+            <Stack Class="oefening-controls">
+                <button class="btn btn-fw btn-link link-links" @onclick="() => player.VorigeSet()"
+                        disabled="@(player.Vorige == default && player.SetNummer == 1 && !player.IsPauze)">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+
+                <div>
+                    <div class="oefening-tijd">
+                        <svg class="loading-progress @(player.Modus == Modus.Handmatig ? "red" : "blue")">
+                            <circle r="40%" cx="50%" cy="50%"/>
+                            <circle r="40%" cx="50%" cy="50%" style="stroke-dasharray: calc(3.141 * @(player.PercentageTijd)% * 0.8), 500%;"/>
+                        </svg>
+
+                        <div class="loading-progress-text center">
+                            @if (player.IsPauze)
+                            {
+                                <span class="resterende-tijd">@player.ResterendeTijdPauze.ToString(@"m\:ss")</span>
+                            }
+                            else
+                            {
+                                <span class="resterende-tijd">@player.ResterendeTijdSet.ToString(@"m\:ss")</span>
+                            }
+                        </div>
+
+                        <div class="start-stop">
+                            @if (!player.IsKlaar)
+                            {
+                                @if (player.Modus == Modus.Handmatig)
+                                {
+                                    <button class="btn btn-link" @onclick="() => player.Start()"></button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-link" @onclick="() => player.Stop()"></button>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-fw btn-link link-rechts" @onclick="() => player.VolgendeSet()"
+                        disabled="@(player.Volgende == default && player.SetNummer == player.Oefening.AantalSets && player.IsKlaar)">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </Stack>
+
+            <p class="workout-start" style="visibility: @(player.WorkoutStart == null ? "hidden" : "visible")">
+                @(player.WorkoutDuur != null ? (int)player.WorkoutDuur.Value.TotalMinutes : 0) min
+            </p>
+        </div>
+    </div>
+}
+
+@code
+{
+    //[CascadingParameter] private Task<AuthenticationState>? AuthenticationState { get; set; }
+    [Parameter, EditorRequired] public CategorieType Categorie { get; set; }
+
+    private Player? player;
+    private bool saving;
+
+    protected override void OnInitialized()
+    {
+        /* todo
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var querystring = QueryHelpers.ParseQuery(uri.Query);
+        var oefeningnummer = querystring.ContainsKey("oefening") ? int.Parse(querystring.GetValueOrDefault("oefening").First()!) : 1;
+        var set = querystring.ContainsKey("set") ? int.Parse(querystring.GetValueOrDefault("set").First()!) : 1;*/
+
+        var oefeningnummer = 1;
+        var set = 1;
+        
+        player = new Player(Categorie, oefeningnummer, set);
+        player.OnTick += PlayerTick;
+        player.OnSetChange += PlayerSetChange;
+        player.OnStart += PlayerStart;
+        player.OnEind += PlayerEind;
+    }
+
+    private void PlayerTick()
+    {
+        InvokeAsync(async () =>
+        {
+            StateHasChanged();
+
+            if (player!.ResterendeTijdPauze <= TimeSpan.FromSeconds(3))
+            {
+                await jsRuntime.InvokeVoidAsync("ironCrusade.say", player!.ResterendeTijdPauze.Seconds);
+            }
+        });
+    }
+
+    private void PlayerSetChange()
+    {
+        if (player!.Oefening.DuurSet > TimeSpan.Zero)
+        {
+            InvokeAsync(async () =>
+            {
+                var melding = $"{player!.Oefening.Naam}, {player.Oefening.AantalHerhalingen} herhaling{(player.Oefening.AantalHerhalingen == 1 ? "" : "en")}";
+                await jsRuntime.InvokeVoidAsync("ironCrusade.say", melding);
+            });
+        }
+    }
+
+    private void PlayerStart()
+    {
+        /* todo
+        InvokeAsync(async () =>
+        {
+            try
+            {
+                await GoogleClient.SaveWorkoutLogAsync(player!);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, $"Exception in {nameof(PlayerStart)}");
+                throw;
+            }
+        });*/
+    }
+
+    private void PlayerEind()
+    {
+        /* todo
+        InvokeAsync(async () =>
+        {
+            try
+            {
+                saving = true;
+                StateHasChanged();
+
+                await GoogleClient.SaveWorkoutLogAsync(player!);
+
+                saving = false;
+                StateHasChanged();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, $"Exception in {nameof(PlayerEind)}");
+                throw;
+            }
+        });*/
+    }
+
+    /* todo
+    private async Task<bool> IsAuthenticated()
+    {
+        if (AuthenticationState is not null)
+        {
+            var authState = await AuthenticationState;
+            var user = authState.User;
+
+            if (user.Identity is not null && user.Identity.IsAuthenticated)
+            {
+                return true;
+            }
+        }
+        return false;
+    }*/
+
+    public void Dispose()
+    {
+        if (player != null)
+        {
+            player.OnTick -= PlayerTick;
+            player.Dispose();
+        }
+    }
+}

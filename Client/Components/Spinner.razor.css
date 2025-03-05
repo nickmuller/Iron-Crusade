@@ -1,0 +1,49 @@
+.spinner,
+.spinner-center {
+    animation: spinner 1s linear infinite;
+    color: #31cc89;
+    fill: none;
+    stroke: currentColor;
+    stroke-dasharray: 72.822509765625 15;
+    stroke-dashoffset: 263.467529296875;
+    stroke-linecap: round;
+    stroke-width: 10;
+    height: 0.875rem;
+    width: 0.875rem;
+    position: relative;
+    top: 3px;
+    margin-left: 0.25rem;
+}
+
+.spinner-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spinner {
+    0% {
+        stroke-dasharray: 72 15;
+        stroke-dashoffset: 263;
+    }
+
+    26% {
+        stroke-dasharray: 1 86;
+        stroke-dashoffset: 150;
+    }
+
+    46% {
+        stroke-dasharray: 1 86;
+        stroke-dashoffset: 110;
+    }
+
+    73% {
+        stroke-dasharray: 72 15;
+        stroke-dashoffset: 40;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

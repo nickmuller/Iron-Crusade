@@ -1,0 +1,45 @@
+﻿@page "/"
+
+<div class="index">
+    <Header>
+        <Middle>
+            <h1 class="header-title">
+                IRON CRUSADE
+            </h1>
+        </Middle>
+        <Right>
+            <LoginDisplay/>
+        </Right>
+    </Header>
+
+    <nav>
+        <ul>
+            <li class="nav-item">
+                <NavLink class="nav-link" href="statistieken" Match="NavLinkMatch.Prefix">
+                    <p>Statistieken</p>
+                </NavLink>
+            </li>
+        </ul>
+
+        <ul>
+            <li class="nav-item categorie">
+                <NavLink class="nav-link" href="borstenrug" Match="NavLinkMatch.Prefix">
+                    <img src="images/gym-22.svg" alt="borst en rug" />
+                    <p>Borst en rug</p>
+                </NavLink>
+            </li>
+            <li class="nav-item categorie">
+                <NavLink class="nav-link" href="schoudersenarmen" Match="NavLinkMatch.Prefix">
+                    <img src="images/gym-23.svg" alt="schouders en armen" />
+                    <p>Schouders en armen</p>
+                </NavLink>
+            </li>
+            <li class="nav-item categorie">
+                <NavLink class="nav-link" href="benen" Match="NavLinkMatch.Prefix">
+                    <img src="images/gym-14.svg" alt="benen" />
+                    <p>Benen</p>
+                </NavLink>
+            </li>
+        </ul>
+    </nav>
+</div>

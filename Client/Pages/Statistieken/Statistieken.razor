@@ -1,0 +1,26 @@
+﻿@page "/statistieken"
+
+<Header>
+    <Left>
+        <a href="" class="btn btn-link home-link"><i class="fa-solid fa-arrow-left"></i></a>
+    </Left>
+    <Middle>
+        <h1 class="header-title">
+            Statistieken
+        </h1>
+    </Middle>
+    <Right>
+        <LoginDisplay />
+    </Right>
+</Header>
+
+<div class="container">
+    <Tabs>
+        <TabItem Title="Gewicht">
+            <TabGewicht />
+        </TabItem>
+        <TabItem Title="Workout">
+            <TabWorkout />
+        </TabItem>
+    </Tabs>
+</div>

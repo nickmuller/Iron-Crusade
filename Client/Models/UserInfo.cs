@@ -1,4 +1,4 @@
-﻿namespace BlazorApp.Client.Models;
+﻿namespace IronCrusade.Client.Models;
 
 public class UserInfo
 {

@@ -1,0 +1,35 @@
+﻿@inject HttpClient Http
+
+<div class="login-display">
+    @if (user != null)
+    {
+        <div class="dropdown" tabindex="0">
+            <button class="btn btn-link dropdown-toggle">@(string.Concat(user.ClientPrincipal!.UserDetails!.Where(char.IsUpper).Take(2)))</button>
+            <div class="dropdown-menu dropdown-menu-right-aligned">
+                <h6 class="dropdown-header">@user.ClientPrincipal!.UserDetails</h6>
+                <div class="dropdown-divider"></div>
+                <a href="/.auth/logout" class="dropdown-item">Logout</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <a href="/.auth/login" class="btn btn-link">Login</a>
+    }
+</div>
+
+@code {
+    private UserInfo? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            user = await Http.GetFromJsonAsync<UserInfo>("/.auth/me");
+        }
+        catch
+        {
+            user = null;
+        }
+    }
+}

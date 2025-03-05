@@ -1,0 +1,20 @@
+﻿<div class="header @Class">
+    <div class="header-left">
+        @Left
+    </div>
+
+    <div class="header-middle">
+        @Middle
+    </div>
+
+    <div class="header-right">
+        @Right
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? Left { get; set; }
+    [Parameter] public RenderFragment? Middle { get; set; }
+    [Parameter] public RenderFragment? Right { get; set; }
+}
