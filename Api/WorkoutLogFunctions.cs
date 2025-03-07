@@ -16,7 +16,7 @@ public class WorkoutLogFunctions(ILoggerFactory loggerFactory, ApiDbContext db)
     private readonly ILogger logger = loggerFactory.CreateLogger<WorkoutLogFunctions>();
     
     [Function("WorkoutLogs")]
-    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.User, "get")] HttpRequestData req)
+    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
     {
         var username = StaticWebAppsAuth.Parse(req).Identity!.Name;
         var workoutLogs = await db.WorkoutLogs.Where(l => l.Username == username)
