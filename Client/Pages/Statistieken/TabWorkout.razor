@@ -1,4 +1,6 @@
-﻿<div class="tab-header">
+﻿@inject HttpClient Http
+
+<div class="tab-header">
     Voortgang
 </div>
 <div class="calendar-grid">
@@ -32,7 +34,7 @@
     }
     else
     {
-        @*@foreach (var log in logs)
+        @foreach (var log in logs)
         {
             <tr>
                 <td>@log.WorkoutStart.ToString("ddd d MMM")</td>
@@ -40,26 +42,27 @@
                 <td>@log.Duur?.ToDum()</td>
                 <td>@log.Categorie.DisplayName()</td>
             </tr>
-        }*@
+        }
     }
 </table>
 
 @code
 {
-    /*private List<WorkoutLog> logs = [];*/
+    private List<WorkoutLogModel> logs = [];
     private readonly List<List<CalendarDay>> CalendarDays = [];
     private readonly DateTime CurrentDate = DateTime.Now;
     private bool isLoading;
 
-    /* todo
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
         GenerateCalendar();
-        var files = await GoogleClient.GetWorkoutLogAsync();
-        logs = files.SelectMany(f => f.WorkoutLijst).Where(w => w.WorkoutEind.HasValue).TakeLast(5).ToList();
+        
+        var userWorkoutLogs = await Http.GetFromJsonAsync<List<WorkoutLogModel>>("/api/WorkoutLogs") ?? [];
+        logs = userWorkoutLogs.Where(w => w.WorkoutEind.HasValue).TakeLast(5).ToList();
+        
         isLoading = false;
-    }*/
+    }
 
     private void GenerateCalendar()
     {
@@ -122,9 +125,8 @@
             day.IsCurrentMonth ? "current-month" : "other-month",
         ];
 
-        // todo
-        //if (logs.Any(l => DateOnly.FromDateTime(l.WorkoutStart.Date) == day.Date))
-        //    classes.Add("is-log-datum");
+        if (logs.Any(l => DateOnly.FromDateTime(l.WorkoutStart.Date) == day.Date))
+            classes.Add("is-log-datum");
 
         if (day.Date == DateOnly.FromDateTime(DateTime.Today))
             classes.Add("today");

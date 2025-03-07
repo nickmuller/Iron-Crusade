@@ -1,4 +1,6 @@
-﻿namespace IronCrusade.Client.Types;
+﻿using System.Collections.Generic;
+
+namespace IronCrusade.Shared.Types;
 
 public static class CategorieTypeExtensions
 {

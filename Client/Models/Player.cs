@@ -1,4 +1,5 @@
 ﻿using IronCrusade.Client.Types;
+using IronCrusade.Shared.Types;
 
 namespace IronCrusade.Client.Models;
 
