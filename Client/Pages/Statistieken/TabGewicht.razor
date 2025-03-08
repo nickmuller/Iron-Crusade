@@ -1,4 +1,6 @@
-﻿<div class="tab-header">
+﻿@inject HttpClient Http
+
+<div class="tab-header">
     Voortgang
 </div>
 <div class="grafiek-container">
@@ -7,7 +9,6 @@
         {
             <Spinner Class="spinner-center" />
         }
-        @* todo
         @foreach (var log in logs)
         {
             <div class="gewicht-label">@log.Gewicht kg</div>
@@ -23,7 +24,7 @@
         @foreach (var log in logs)
         {
             <div class="dag-label">@log.Datum.ToString("d MMM")</div>
-        }*@
+        }
     </div>
 </div>
 <div class="calendar-grid">
@@ -63,35 +64,35 @@
 
 @code
 {
-    /*private IReadOnlyCollection<PersoonlijkeGegevensLog> logs = [];*/
+    private IReadOnlyCollection<PersoonlijkeGegevensLogModel> logs = [];
     private readonly List<List<CalendarDay>> CalendarDays = [];
     private readonly DateTime CurrentDate = DateTime.Now;
     private decimal gewicht;
     private bool isLoading;
 
-    // todo
-    /*protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         isLoading = true;
-
         GenerateCalendar();
-
-        var files = await GoogleClient.GetPersoonlijkeGegevensLogsAsync();
-        logs = files.SelectMany(f => f.PersoonlijkeGegevensLijst).TakeLast(5).ToList();
+        await LogsOphalen();
+        isLoading = false;
+    }
+    
+    private async Task LogsOphalen()
+    {
+        var userLogs = await Http.GetFromJsonAsync<List<PersoonlijkeGegevensLogModel>>("/api/PersoonlijkeGegevensLogs") ?? [];
+        logs = userLogs.TakeLast(5).ToList();
         
         // Laatst gelogde gewicht tonen
         var laatsteLog = logs.MaxBy(l => l.Datum);
         gewicht = laatsteLog?.Gewicht ?? 70.0m;
-
-        isLoading = false;
     }
-
+    
     private async Task GewichtLoggen()
     {
-        await GoogleClient.SavePersoonlijkeGegevensLogAsync(gewicht);
-        var files = await GoogleClient.GetPersoonlijkeGegevensLogsAsync();
-        logs = files.SelectMany(f => f.PersoonlijkeGegevensLijst).TakeLast(5).ToList();
-    }*/
+        await Http.PostAsJsonAsync("/api/PersoonlijkeGegevensLogs", gewicht);
+        await LogsOphalen();
+    }
 
     private void GenerateCalendar()
     {
@@ -154,9 +155,8 @@
             day.IsCurrentMonth ? "current-month" : "other-month",
         ];
 
-        // todo
-        //if (logs.Any(l => DateOnly.FromDateTime(l.Datum.Date) == day.Date))
-        //    classes.Add("is-log-datum");
+        if (logs.Any(l => DateOnly.FromDateTime(l.Datum.Date) == day.Date))
+            classes.Add("is-log-datum");
 
         if (day.Date == DateOnly.FromDateTime(DateTime.Today))
             classes.Add("today");

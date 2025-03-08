@@ -31,11 +31,3 @@
         }
     }
 }
-
-.tab-header {
-    color: rgba(255, 255, 255, 0.87);
-    font-weight: bold;
-    width: 100%;
-    padding: 0.75rem;
-    background-color: rgb(36 36 36);
-}

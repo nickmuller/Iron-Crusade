@@ -636,7 +636,7 @@ body {
     line-height: 1.5;
     color: #000;
     overflow-y: hidden;
-    max-width: 414px; /* Max width set to iPhone 11 viewport width */
+    max-width: 430px; /* iPhone 14 Pro Max viewport width */
 }
 
 #app {
@@ -708,63 +708,6 @@ nav img + p {
 nav img {
     height: 18vh;
     z-index: 1;
-}
-
-.fingerprint {
-    margin: 30px auto;
-    position: relative;
-}
-.fingerprint svg {
-    height: 80px;
-    width: 80px;
-    fill: rgba(89, 92, 94, 0.2941176471);
-}
-.fingerprint svg .finger {
-    animation: finger 2s ease infinite;
-}
-.fingerprint svg .finger:nth-child(11) {
-    animation-delay: 50ms;
-}
-.fingerprint svg .finger:nth-child(10) {
-    animation-delay: 100ms;
-}
-.fingerprint svg .finger:nth-child(9) {
-    animation-delay: 150ms;
-}
-.fingerprint svg .finger:nth-child(8) {
-    animation-delay: 200ms;
-}
-.fingerprint svg .finger:nth-child(7) {
-    animation-delay: 250ms;
-}
-.fingerprint svg .finger:nth-child(6) {
-    animation-delay: 300ms;
-}
-.fingerprint svg .finger:nth-child(5) {
-    animation-delay: 350ms;
-}
-.fingerprint svg .finger:nth-child(4) {
-    animation-delay: 400ms;
-}
-.fingerprint svg .finger:nth-child(3) {
-    animation-delay: 450ms;
-}
-.fingerprint svg .finger:nth-child(2) {
-    animation-delay: 500ms;
-}
-.fingerprint svg .finger:nth-child(1) {
-    animation-delay: 550ms;
-}
-@keyframes finger {
-    0% {
-        fill: rgba(89, 92, 94, 0.2941176471);
-    }
-    20% {
-        fill: #1690e8;
-    }
-    40% {
-        fill: rgba(89, 92, 94, 0.2941176471);
-    }
 }
 
 .progress {
@@ -1134,4 +1077,10 @@ nav img {
     padding: 9px;
 }
 
-/*# sourceMappingURL=data:application/json;charset=utf-8,%7B%22version%22:3,%22sourceRoot%22:%22%22,%22sources%22:%5B%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/vendors/_blazor.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/vendors/_reset.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/base/_animations.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/base/_buttons.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/abstracts/_variables.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/base/_dropdown.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/base/_general.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/base/_icons.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/layout/_login-display.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/layout/_main.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/layout/_nav.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_fingerprint.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_header.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_progress.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_slider.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_spinner.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_tabs.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/components/_workout-player.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/pages/_authentication.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/pages/_index.scss%22,%22file:///C:/Users/Nick/source/repos/Workout/Workout/Styles/pages/_statistieken.scss%22%5D,%22names%22:%5B%5D,%22mappings%22:%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AAS;;;AACT;EAAS;;;AAET;EAAS;;;AACT;EAAS;;;AChDR;EACG;EACA;EACA;EACA;;;ACJH;EACG;;;ACDH;EACG;EACA,WLSa;EKRb;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAEA;EACI;EACA;;AAGJ;EACI;EACA;EACA;EACA;;AAEA;EACI;;;AAKZ;EACI;EACA;EACA;;;AC5CH;EACG;EACA;;AAEA;EACI;EACA;;AAIA;EACI;EACA;EACA;EACA;;AAGJ;AAAA;EAEI;;AAIR;EACI;EACA;;AAGJ;EACI;EACA;EACA;EACA;;AAGJ;EACI;;AAGJ;EACI;EACA;;;ACzCP;EACG;EACA;;AAEA;EACI;EACA;EACA;;AAEA;EACI;;AAIA;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AADJ;EACI;;AAKZ;EACI;IACI;;EAGJ;IACI;;EAGJ;IACI;;;;AC9BX;EACG;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA;;;AAGJ;EACI;;;AAGJ;EACI;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA;;;AC7BH;EACG;EACA;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA,kBTVD;ESWC;;;ACXR;EACI;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;EACI;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;EACI;;;ACrDH;AAAA;EAEG;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;IACI;IACA;;EAGJ;IACI;IACA;;EAGJ;IACI;IACA;;EAGJ;IACI;IACA;;EAGJ;IACI;;;AC9CP;EACG;EACA;EACA;EACA;EACA;EACA;;AAGI;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAEA;EAEI;;AAGJ;EAEI;EACA;;;AAMhB;EACI;EACA;EACA;EACA;EACA;;;ACvCH;EACG;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EAEA;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;;AAGJ;EACI;EACA;EACA;EACA;EACA;;AAGJ;EACI;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAIR;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA;;;AAKZ;EACI;EACA;EACA;EACA;EACA;;AAEA;EACI;;AAGJ;EACI;EACA;EACA;;AAGJ;EACI;;AAGJ;AAAA;EAEI;EACA;EACA;;AAGJ;EACI;EACA;;;AAIR;EACI;;AAEA;EACI;EACA;;AAGJ;EACI;EACA;;AAGJ;AAAA;EAEI;;;AAIR;EACI;EACA;;AAEA;EACI;;;AAIR;EACI;;AAEA;EACI;EACA;EACA;EACA;EACA;;AAGJ;EACI;EACA;EACA;EACA;EACA;;AAGJ;EACI,QbjKD;EakKC;;AAGJ;EACI,QbxKF;EayKE;;AAGJ;EACI;EACA;EACA;;;AAIR;EACI;EACA;EACA;EACA,Ob/KS;EagLT;EACA;;;AAMA;AAAA;AAAA;AAAA;EAEI;;;AClMP;EACG;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA,OdTG;EcUH;;;ACbH;EACG;EACA;EACA;;;ACHH;EACG;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;EACI;;;AAGJ;EACI;EACA;;;AAGJ;AAAA;EAEI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;AAKA;EACI,kBhB5DD;EgB6DC;;AAOR;EACI;EACA;EACA;EACA;EACA;EACA;;;AAGJ;EACI;;;AAGJ;EACI;EACA;EACA;EACA;;;AAGJ;EACI;EACA;;;AAGJ;EACI;;;AAGJ;EACI,kBhBlGG;;;AgBqGP;EACI;EACA%22%7D */
+.tab-header {
+    color: rgba(255, 255, 255, 0.87);
+    font-weight: bold;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgb(36 36 36);
+}

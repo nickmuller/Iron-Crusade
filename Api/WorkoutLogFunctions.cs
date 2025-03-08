@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Reflection;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,9 @@ public class WorkoutLogFunctions(ILoggerFactory loggerFactory, ApiDbContext db)
     [Function("WorkoutLogs")]
     public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
     {
+        var attribute = GetType().GetMethod(nameof(Run))?.GetCustomAttribute<FunctionAttribute>();
+        using var activity = new Activity(attribute?.Name ?? string.Empty).Start(); // Start trace
+
         var username = StaticWebAppsAuth.Parse(req).Identity!.Name;
         var workoutLogs = await db.WorkoutLogs.Where(l => l.Username == username)
             .Select(l => new WorkoutLogModel
