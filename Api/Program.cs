@@ -9,8 +9,8 @@ var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
     .ConfigureAppConfiguration((hostContext, config) =>
     {
-        //config.AddJsonFile(Path.Combine(Environment.CurrentDirectory, "appsettings.json"), optional: true, reloadOnChange: false);
-        config.AddJsonFile("appsettings.json");
+        config.AddEnvironmentVariables();
+        config.AddJsonFile("local.settings.json", true);
     })
     .ConfigureServices((hostContext, services) =>
     {
@@ -18,7 +18,7 @@ var host = new HostBuilder()
         services.ConfigureFunctionsApplicationInsights();
         services.AddDbContext<ApiDbContext>(options =>
         {
-            var connectionString = hostContext.Configuration.GetConnectionString("Azure");
+            var connectionString = hostContext.Configuration.GetConnectionString("SQLConnectionString");
             options.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure());
         });
     })

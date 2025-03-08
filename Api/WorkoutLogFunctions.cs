@@ -1,9 +1,7 @@
 ﻿using System.Net;
-using System.Security.Claims;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 using Api.Authentication;
 using Api.Data;
 using IronCrusade.Shared;
@@ -29,7 +27,7 @@ public class WorkoutLogFunctions(ILoggerFactory loggerFactory, ApiDbContext db)
             })
             .OrderBy(l => l.WorkoutStart)
             .ToListAsync();
-        
+
         var response = req.CreateResponse(HttpStatusCode.OK);
         await response.WriteAsJsonAsync(workoutLogs);
 
