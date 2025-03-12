@@ -11,7 +11,7 @@
         }
         @foreach (var log in logs)
         {
-            <div class="gewicht-label">@log.Gewicht kg</div>
+            <div>@log.Gewicht.ToString("N1") kg</div>
         }
         @foreach (var log in logs)
         {
@@ -51,12 +51,7 @@
     }
     else
     {
-        <InputSelect @bind-Value="gewicht" id="dropdown" class="gewicht-dropdown">
-            @for (var i = 60.0m; i <= 80.0m; i += 0.1m)
-            {
-                <option value="@i" selected="@(i == gewicht)">@i</option>
-            }
-        </InputSelect>
+        <Dropdown @bind-Value="gewicht" Id="dropdown" Class="gewicht-dropdown" Items="Enumerable.Range(600, 200).Select(x => Math.Round(x / 10m, 1)).ToList()" />
     }
 
     <SpinnerButton Text="Log" Class="btn btn-blue btn-log-gewicht" OnClick="GewichtLoggen" />
@@ -77,18 +72,17 @@
         await LogsOphalen();
         isLoading = false;
     }
-    
+
     private async Task LogsOphalen()
     {
         var userLogs = await Http.GetFromJsonAsync<List<PersoonlijkeGegevensLogModel>>("/api/PersoonlijkeGegevensLogs") ?? [];
         logs = userLogs.TakeLast(5).ToList();
-        
+
         // Laatst gelogde gewicht tonen
         var laatsteLog = logs.MaxBy(l => l.Datum);
         gewicht = laatsteLog?.Gewicht ?? 70.0m;
-        StateHasChanged();
     }
-    
+
     private async Task GewichtLoggen()
     {
         await Http.PostAsJsonAsync("/api/CreatePersoonlijkeGegevensLog", gewicht);

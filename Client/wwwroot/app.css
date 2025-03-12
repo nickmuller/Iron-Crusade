@@ -1034,10 +1034,11 @@ nav img {
     text-align: center;
     align-items: end;
     position: relative;
-}
-.staaf-grafiek .staaf {
-    background-color: #1690e8;
-    border-radius: 0.25rem;
+
+    .staaf {
+        background-color: #1690e8;
+        border-radius: 0.25rem;
+    }
 }
 .calendar-grid {
     display: grid;

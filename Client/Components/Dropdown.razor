@@ -1,0 +1,57 @@
+﻿@inherits IcComponentBase
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@typeparam TValue
+
+<InputSelect id="@Id" class="@Class" @attributes="@AdditionalAttributes" @bind-Value="value">
+    @foreach (var item in Items)
+    {
+        <option value="@ValueToString(item)">
+            @item
+        </option>
+    }
+</InputSelect>
+
+@code {
+    [Parameter] public TValue? Value { get; set; }
+    [Parameter] public EventCallback<TValue?> ValueChanged { get; set; }
+    [Parameter] public List<TValue> Items { get; set; } = [];
+    
+    private string value
+    {
+        get => ValueToString(Value);
+        set
+        {
+            Value = StringToValue(value);
+            ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender && Value != null)
+        {
+            // we need to render the initial Value which is not possible without the items
+            // which are supplied by the RenderFragment. So in this case, a second render is necessary
+            StateHasChanged();
+        }
+    }
+    
+    private static string ValueToString(object? obj)
+    {
+        if (obj is decimal d)
+            return d.ToString("N2", CultureInfo.InvariantCulture);
+        
+        return JsonSerializer.Serialize(obj, new JsonSerializerOptions
+        {
+            WriteIndented = false,
+            NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
+        });
+    }
+
+    private static TValue? StringToValue(string? obj)
+    {
+        return (TValue?)Convert.ChangeType(obj, typeof(TValue), CultureInfo.InvariantCulture);
+    }
+}
