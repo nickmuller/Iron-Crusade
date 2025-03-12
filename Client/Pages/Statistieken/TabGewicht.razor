@@ -86,11 +86,12 @@
         // Laatst gelogde gewicht tonen
         var laatsteLog = logs.MaxBy(l => l.Datum);
         gewicht = laatsteLog?.Gewicht ?? 70.0m;
+        StateHasChanged();
     }
     
     private async Task GewichtLoggen()
     {
-        await Http.PostAsJsonAsync("/api/PersoonlijkeGegevensLogs", gewicht);
+        await Http.PostAsJsonAsync("/api/CreatePersoonlijkeGegevensLog", gewicht);
         await LogsOphalen();
     }
 

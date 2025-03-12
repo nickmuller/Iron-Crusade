@@ -39,7 +39,7 @@ public class PersoonlijkeGegevensLogFunctions(ILoggerFactory loggerFactory, ApiD
         return response;
     }
     
-    [Function("PersoonlijkeGegevensLogs")]
+    [Function("CreatePersoonlijkeGegevensLog")]
     public async Task<HttpResponseData> Post([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
     {
         var attribute = GetType().GetMethod(nameof(Post))?.GetCustomAttribute<FunctionAttribute>();
