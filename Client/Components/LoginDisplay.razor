@@ -1,5 +1,4 @@
-﻿@inject NavigationManager NavigationManager
-@inject HttpClient Http
+﻿@inject HttpClient Http
 
 <div class="login-display">
     @if (user != null)
@@ -26,7 +25,7 @@
     {
         try
         {
-            user = await Http.GetFromJsonAsync<UserInfo>($"{NavigationManager.BaseUri}.auth/me");
+            user = await Http.GetFromJsonAsync<UserInfo>("/.auth/me");
         }
         catch
         {

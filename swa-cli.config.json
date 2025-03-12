@@ -1,7 +1,7 @@
 {
   "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
   "configurations": {
-    "iron-crusade": {
+    "iron-crusade-local": {
       "appLocation": "Client",
       "appDevserverUrl": "http://localhost:5000",
       "apiLocation": "Api",
