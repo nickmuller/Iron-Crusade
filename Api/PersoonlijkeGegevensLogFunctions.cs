@@ -23,7 +23,7 @@ public class PersoonlijkeGegevensLogFunctions(ILoggerFactory loggerFactory, ApiD
         using var activity = new Activity(attribute?.Name ?? string.Empty).Start(); // Start trace
 
         var username = StaticWebAppsAuth.Parse(req).Identity!.Name!;
-        var workoutLogs = await db.PersoonlijkeGegevensLogs.Where(l => l.Username == username)
+        var persoonlijkeGegevensLogs = await db.PersoonlijkeGegevensLogs.Where(l => l.Username == username)
             .Select(l => new PersoonlijkeGegevensLogModel
             {
                 Username = l.Username,
@@ -34,7 +34,7 @@ public class PersoonlijkeGegevensLogFunctions(ILoggerFactory loggerFactory, ApiD
             .ToListAsync();
 
         var response = req.CreateResponse(HttpStatusCode.OK);
-        await response.WriteAsJsonAsync(workoutLogs);
+        await response.WriteAsJsonAsync(persoonlijkeGegevensLogs);
 
         return response;
     }
