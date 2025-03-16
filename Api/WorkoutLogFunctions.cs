@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Reflection;
+using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -16,9 +17,9 @@ public class WorkoutLogFunctions(ILoggerFactory loggerFactory, ApiDbContext db)
     private readonly ILogger logger = loggerFactory.CreateLogger<WorkoutLogFunctions>();
     
     [Function("WorkoutLogs")]
-    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
+    public async Task<HttpResponseData> Get([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
     {
-        var attribute = GetType().GetMethod(nameof(Run))?.GetCustomAttribute<FunctionAttribute>();
+        var attribute = GetType().GetMethod(nameof(Get))?.GetCustomAttribute<FunctionAttribute>();
         using var activity = new Activity(attribute?.Name ?? string.Empty).Start(); // Start trace
 
         var username = StaticWebAppsAuth.Parse(req).Identity!.Name;
@@ -37,5 +38,27 @@ public class WorkoutLogFunctions(ILoggerFactory loggerFactory, ApiDbContext db)
         await response.WriteAsJsonAsync(workoutLogs);
 
         return response;
+    }
+    
+    [Function("CreateWorkoutLog")]
+    public async Task<HttpResponseData> Post([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+    {
+        var attribute = GetType().GetMethod(nameof(Post))?.GetCustomAttribute<FunctionAttribute>();
+        using var activity = new Activity(attribute?.Name ?? string.Empty).Start(); // Start trace
+        
+        var username = StaticWebAppsAuth.Parse(req).Identity!.Name!;
+        var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+        var model = JsonSerializer.Deserialize<WorkoutLogModel>(requestBody, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        db.WorkoutLogs.Add(new WorkoutLog
+        {
+            Username = username,
+            Categorie = model!.Categorie,
+            WorkoutStart = model.WorkoutStart,
+            WorkoutEind = model.WorkoutEind
+        });
+        await db.SaveChangesAsync();
+
+        return req.CreateResponse(HttpStatusCode.Created);
     }
 }

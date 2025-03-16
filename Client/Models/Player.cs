@@ -99,7 +99,8 @@ public class Player : IDisposable
 
     public void VorigeSet()
     {
-        timer?.Change(1000, 1000);
+        if (Modus == Modus.Automatisch)
+            timer?.Change(1000, 1000);
 
         if (Vorige == default)
         {
@@ -138,7 +139,14 @@ public class Player : IDisposable
 
     public void VolgendeSet()
     {
-        timer?.Change(1000, 1000);
+        if (WorkoutStart is null)
+        {
+            Start();
+            return;
+        }
+        
+        if (Modus == Modus.Automatisch)
+            timer?.Change(1000, 1000);
 
         if (!IsPauze && AantalSetsAfgerond + 1 < TotaalAantalSets)
         {

@@ -1,6 +1,5 @@
 ﻿@implements IDisposable
-@inject NavigationManager Navigation
-@*@inject GoogleClient GoogleClient*@
+@inject HttpClient Http
 @inject ILogger<WorkoutPlayer> Logger
 @inject IJSRuntime jsRuntime
 
@@ -163,7 +162,6 @@
 
 @code
 {
-    //[CascadingParameter] private Task<AuthenticationState>? AuthenticationState { get; set; }
     [Parameter, EditorRequired] public CategorieType Categorie { get; set; }
 
     private Player? player;
@@ -171,19 +169,9 @@
 
     protected override void OnInitialized()
     {
-        /* todo
-        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
-        var querystring = QueryHelpers.ParseQuery(uri.Query);
-        var oefeningnummer = querystring.ContainsKey("oefening") ? int.Parse(querystring.GetValueOrDefault("oefening").First()!) : 1;
-        var set = querystring.ContainsKey("set") ? int.Parse(querystring.GetValueOrDefault("set").First()!) : 1;*/
-
-        var oefeningnummer = 1;
-        var set = 1;
-        
-        player = new Player(Categorie, oefeningnummer, set);
+        player = new Player(Categorie, 1, 1);
         player.OnTick += PlayerTick;
         player.OnSetChange += PlayerSetChange;
-        player.OnStart += PlayerStart;
         player.OnEind += PlayerEind;
     }
 
@@ -212,26 +200,8 @@
         }
     }
 
-    private void PlayerStart()
-    {
-        /* todo
-        InvokeAsync(async () =>
-        {
-            try
-            {
-                await GoogleClient.SaveWorkoutLogAsync(player!);
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, $"Exception in {nameof(PlayerStart)}");
-                throw;
-            }
-        });*/
-    }
-
     private void PlayerEind()
     {
-        /* todo
         InvokeAsync(async () =>
         {
             try
@@ -239,7 +209,21 @@
                 saving = true;
                 StateHasChanged();
 
-                await GoogleClient.SaveWorkoutLogAsync(player!);
+                if (player is null)
+                    throw new InvalidOperationException("player is null");
+                
+                if (player.WorkoutStart is null)
+                    throw new InvalidOperationException("player.WorkoutStart is null");
+                
+                if (player.WorkoutEind is null)
+                    throw new InvalidOperationException("player.WorkoutEind is null");
+                
+                await Http.PostAsJsonAsync("/api/CreateWorkoutLog", new WorkoutLogModel
+                {
+                    Categorie = player!.Categorie,
+                    WorkoutStart = player.WorkoutStart!.Value,
+                    WorkoutEind = player.WorkoutEind
+                });
 
                 saving = false;
                 StateHasChanged();
@@ -249,24 +233,8 @@
                 Logger.LogError(e, $"Exception in {nameof(PlayerEind)}");
                 throw;
             }
-        });*/
+        });
     }
-
-    /* todo
-    private async Task<bool> IsAuthenticated()
-    {
-        if (AuthenticationState is not null)
-        {
-            var authState = await AuthenticationState;
-            var user = authState.User;
-
-            if (user.Identity is not null && user.Identity.IsAuthenticated)
-            {
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     public void Dispose()
     {
