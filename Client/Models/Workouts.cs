@@ -16,15 +16,15 @@ public static class Workouts
         };
     }
 
-    private static OefeningModel[] SchoudersEnArmen => new[]
-    {
+    private static OefeningModel[] SchoudersEnArmen =>
+    [
         Warmup,
         new OefeningModel
         {
             Naam = "Arnold Press",
             AantalSets = 3,
             AantalHerhalingen = 12,
-            Tips = new[] {"Schouderbladen tegen elkaar", "Nek recht, niet buigen"},
+            Tips = ["Schouderbladen tegen elkaar", "Nek recht, niet buigen"],
             AfbeeldingUrl = "images/arnold-press.gif",
             VideoUrl = "https://www.youtube.com/embed/6Z15_WdXmVw?start=10"
         },
@@ -33,7 +33,7 @@ public static class Workouts
             Naam = "Side raises",
             AantalSets = 3,
             AantalHerhalingen = 12,
-            Tips = new[] {"Schouderbladen tegen elkaar", "Pols recht, niet buigen"},
+            Tips = ["Schouderbladen tegen elkaar", "Pols recht, niet buigen"],
             AfbeeldingUrl = "images/side-raises.gif",
             VideoUrl = "https://www.youtube.com/embed/3VcKaXpzqRo?start=37"
         },
@@ -42,7 +42,7 @@ public static class Workouts
             Naam = "Shoulder presses",
             AantalSets = 3,
             AantalHerhalingen = 12,
-            Tips = new[] {"Schouderbladen tegen elkaar", "Pols recht, niet buigen"},
+            Tips = ["Schouderbladen tegen elkaar", "Pols recht, niet buigen"],
             AfbeeldingUrl = "images/shoulder-presses.gif",
             VideoUrl = "https://www.youtube.com/embed/B-aVuyhvLHU?start=19"
         },
@@ -51,7 +51,7 @@ public static class Workouts
             Naam = "Alternate curls",
             AantalSets = 4,
             AantalHerhalingen = 10,
-            Tips = new[] {"Schouderbladen tegen elkaar", "Pols recht, niet buigen"},
+            Tips = ["Schouderbladen tegen elkaar", "Pols recht, niet buigen"],
             AfbeeldingUrl = "images/alternate-curls.gif",
             VideoUrl = "https://www.youtube.com/embed/sAq_ocpRh_I?start=32"
         },
@@ -60,7 +60,7 @@ public static class Workouts
             Naam = "Zottman curls",
             AantalSets = 4,
             AantalHerhalingen = 10,
-            Tips = new[] {"Schouderbladen tegen elkaar", "Pols recht, niet buigen"},
+            Tips = ["Schouderbladen tegen elkaar", "Pols recht, niet buigen"],
             AfbeeldingUrl = "images/zottman-curl.gif",
             VideoUrl = "https://www.youtube.com/embed/ZrpRBgswtHs?start=60"
         },
@@ -69,7 +69,7 @@ public static class Workouts
             Naam = "Triceps extensions",
             AantalSets = 3,
             AantalHerhalingen = 15,
-            Tips = new[] {"Schouderbladen tegen elkaar", "Pols recht, niet buigen"},
+            Tips = ["Schouderbladen tegen elkaar", "Pols recht, niet buigen"],
             AfbeeldingUrl = "images/triceps-extensions.gif",
             VideoUrl = "https://www.youtube.com/embed/-Vyt2QdsR7E?start=25"
         },
@@ -80,11 +80,11 @@ public static class Workouts
             AantalHerhalingen = 10,
             AfbeeldingUrl = "images/diamond-push-ups.gif",
             VideoUrl = "https://www.youtube.com/embed/J0DnG1_S92I?start=52"
-        },
-    };
+        }
+    ];
 
-    private static OefeningModel[] Benen => new[]
-    {
+    private static OefeningModel[] Benen =>
+    [
         Warmup,
         new OefeningModel
         {
@@ -99,7 +99,7 @@ public static class Workouts
             Naam = "Dumbbell lunges",
             AantalSets = 4,
             AantalHerhalingen = 10,
-            Tips = new []{"5 herhalingen per been", "Knie bijna in 90 graden", "Andere knie net niet op de grond"},
+            Tips = ["5 herhalingen per been", "Knie bijna in 90 graden", "Andere knie net niet op de grond"],
             AfbeeldingUrl = "images/dumbbell-lunges.gif",
             VideoUrl = "https://www.youtube.com/embed/D7KaRcUTQeE?start=46"
         },
@@ -108,7 +108,7 @@ public static class Workouts
             Naam = "Dumbbell step-up",
             AantalSets = 4,
             AantalHerhalingen = 10,
-            Tips = new []{"5 herhalingen per been"},
+            Tips = ["5 herhalingen per been"],
             AfbeeldingUrl = "images/dumbbell-step-up.gif",
             VideoUrl = "https://www.youtube.com/embed/WCFCdxzFBa4?start=28"
         },
@@ -125,7 +125,7 @@ public static class Workouts
             Naam = "Dumbbell deadlifts",
             AantalSets = 5,
             AantalHerhalingen = 8,
-            Tips = new []{"Schouderbladen tegen elkaar", "Nek recht", "Dumbbells schuin voor benen"},
+            Tips = ["Schouderbladen tegen elkaar", "Nek recht", "Dumbbells schuin voor benen"],
             AfbeeldingUrl = "images/dumbbell-deadlifts.gif",
             VideoUrl = "https://www.youtube.com/embed/lJ3QwaXNJfw?start=98"
         },
@@ -136,11 +136,11 @@ public static class Workouts
             AantalHerhalingen = 15,
             AfbeeldingUrl = "images/calf-raises.gif",
             VideoUrl = "https://www.youtube.com/embed/lJ3QwaXNJfw?start=98"
-        },
-    };
+        }
+    ];
 
-    private static OefeningModel[] BorstEnRug => new[]
-    {
+    private static OefeningModel[] BorstEnRug =>
+    [
         Warmup,
         new OefeningModel
         {
@@ -171,7 +171,7 @@ public static class Workouts
             Naam = "Floor presses",
             AantalSets = 3,
             AantalHerhalingen = 12,
-            Tips = new []{"Op de grond", "Armen comfortabel in 45 graden"},
+            Tips = ["Op de grond", "Armen comfortabel in 45 graden"],
             AfbeeldingUrl = "images/dumbbell-press.gif",
             VideoUrl = "https://www.youtube.com/embed/uUGDRwge4F8?start=48"
         },
@@ -180,7 +180,8 @@ public static class Workouts
             Naam = "Dumbbell arm rows",
             AantalSets = 5,
             AantalHerhalingen = 10,
-            Tips = new []{"5 herhalingen per arm", "Lichaam stil houden", "Elleboog iets boven rug", "Elleboog niet volledig strekken"},
+            Tips = ["5 herhalingen per arm", "Lichaam stil houden", "Elleboog iets boven rug", "Elleboog niet volledig strekken"
+            ],
             AfbeeldingUrl = "images/dumbbell-arm-rows.gif",
             VideoUrl = "https://www.youtube.com/embed/pYcpY20QaE8?start=82"
         },
@@ -189,11 +190,12 @@ public static class Workouts
             Naam = "Bent over raises",
             AantalSets = 3,
             AantalHerhalingen = 15,
-            Tips = new []{"Buig iets voorover", "Rug en nek recht", "Armen 90 graden tov borst", "Armen bij strekken iets boven rug"},
+            Tips = ["Buig iets voorover", "Rug en nek recht", "Armen 90 graden tov borst", "Armen bij strekken iets boven rug"
+            ],
             AfbeeldingUrl = "images/bent-over-raises.gif",
             VideoUrl = "https://www.youtube.com/embed/ttvfGg9d76c?start=61"
-        },
-    };
+        }
+    ];
 
     private static OefeningModel Warmup => new()
     {

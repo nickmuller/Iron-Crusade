@@ -172,6 +172,7 @@
         player = new Player(Categorie, 1, 1);
         player.OnTick += PlayerTick;
         player.OnSetChange += PlayerSetChange;
+        player.OnStart += PlayerStart;
         player.OnEind += PlayerEind;
     }
 
@@ -200,6 +201,15 @@
         }
     }
 
+    private void PlayerStart()
+    {
+        InvokeAsync(async () =>
+        {
+            // Na gebruikerklik gelijk de window speach aftrappen zodat het hierna zonder gebruikerklik werkt
+            await jsRuntime.InvokeVoidAsync("ironCrusade.say", " ");
+        });
+    }
+    
     private void PlayerEind()
     {
         InvokeAsync(async () =>

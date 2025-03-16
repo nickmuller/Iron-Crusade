@@ -3,7 +3,7 @@ using IronCrusade.Shared.Types;
 
 namespace IronCrusade.Client.Models;
 
-public class Player : IDisposable
+public sealed class Player : IDisposable
 {
     private Timer? timer;
     private readonly OefeningModel[] oefeningen;
@@ -18,8 +18,8 @@ public class Player : IDisposable
     public Modus Modus { get; private set; } = Modus.Handmatig;
     public int Oefeningnummer { get; private set; }
     public int AantalOefeningen => oefeningen.Length;
-    public int AantalSetsAfgerond => oefeningen.Where((_, i) => i < Oefeningnummer - 1).Sum(o => o.AantalSets) + SetNummer - 1 + (IsKlaar ? 1 : 0);
-    public int TotaalAantalSets => oefeningen.Sum(o => o.AantalSets);
+    private int AantalSetsAfgerond => oefeningen.Where((_, i) => i < Oefeningnummer - 1).Sum(o => o.AantalSets) + SetNummer - 1 + (IsKlaar ? 1 : 0);
+    private int TotaalAantalSets => oefeningen.Sum(o => o.AantalSets);
     public int PercentageSetsAfgerond => (int)Math.Round((double)AantalSetsAfgerond / TotaalAantalSets * 100);
     public int SetNummer { get; private set; }
     public TimeSpan ResterendeTijdSet => resterendeTijdSet;
@@ -193,10 +193,9 @@ public class Player : IDisposable
     public void Dispose()
     {
         Dispose(true);
-        GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
         if (!disposing)
             return;
