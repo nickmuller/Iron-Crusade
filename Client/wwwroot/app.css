@@ -883,22 +883,6 @@ nav img {
     margin-top: 0.25rem;
 }
 
-.oefening-controls {
-    padding: 0.5rem 2rem;
-}
-.oefening-controls .link-links {
-    padding-left: 0;
-    justify-content: start;
-}
-.oefening-controls .link-rechts {
-    padding-right: 0;
-    justify-content: end;
-}
-.oefening-controls .link-links i,
-.oefening-controls .link-rechts i {
-    font-size: 3rem;
-}
-
 .start-stop .btn {
     position: absolute;
     inset: 0;
@@ -1211,21 +1195,26 @@ nav img {
 }
 
 .oefening-controls {
-    padding: .5rem 2rem;
-
-    .link-links {
-        padding-left: 0;
-        justify-content: start;
-    }
-
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    
+    .link-links,
     .link-rechts {
-        padding-right: 0;
-        justify-content: end;
+        padding: 0;
+        background-color: #000;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        display: grid;
+        align-content: center;
+        justify-content: center;
     }
 
     .link-links i,
     .link-rechts i {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 }
 

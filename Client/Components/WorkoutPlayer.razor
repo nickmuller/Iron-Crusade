@@ -107,7 +107,7 @@
                 </ul>
             </div>
 
-            <Stack Class="oefening-controls">
+            <div class="oefening-controls">
                 <button class="btn btn-fw btn-link link-links" @onclick="() => player.VorigeSet()"
                         disabled="@(player.Vorige == default && player.SetNummer == 1 && !player.IsPauze)">
                     <i class="fa-solid fa-arrow-left"></i>
@@ -151,7 +151,7 @@
                         disabled="@(player.Volgende == default && player.SetNummer == player.Oefening.AantalSets && player.IsKlaar)">
                     <i class="fa-solid fa-arrow-right"></i>
                 </button>
-            </Stack>
+            </div>
 
             <p class="workout-start" style="visibility: @(player.WorkoutStart == null ? "hidden" : "visible")">
                 @(player.WorkoutDuur != null ? (int)player.WorkoutDuur.Value.TotalMinutes : 0) min
