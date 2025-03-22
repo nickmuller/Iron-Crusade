@@ -1,16 +1,24 @@
-﻿using Microsoft.Azure.Functions.Worker;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Reflection;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Api.Data;
-using Microsoft.Extensions.Logging;
 
 namespace Api;
 
 public class DatabaseFunctions(ApiDbContext db)
 {
-    [Function(nameof(CanConnectToDatabase))]
-    public async Task CanConnectToDatabase([TimerTrigger("0 0 12 * * mon,fri")] TimerInfo myTimer, FunctionContext context)
+    [Function("CanConnectToDatabase")]
+    public async Task<HttpResponseData> Get([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
     {
-        var logger = context.GetLogger(nameof(CanConnectToDatabase));
+        var attribute = GetType().GetMethod(nameof(Get))?.GetCustomAttribute<FunctionAttribute>();
+        using var activity = new Activity(attribute?.Name ?? string.Empty).Start(); // Start trace
+
         var canConnect = await db.Database.CanConnectAsync();
-        logger.LogInformation("Can connect to the database: {CanConnect}", canConnect);
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteAsJsonAsync(canConnect);
+
+        return response;
     }
 }
