@@ -1,5 +1,4 @@
 ﻿@page "/"
-@inject HttpClient Http
 
 <div class="index">
     <Header>
@@ -44,11 +43,3 @@
         </ul>
     </nav>
 </div>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        // Make a connection to the database to wake it up
-        await Http.GetFromJsonAsync<bool>("/api/CanConnectToDatabase");
-    }
-}
