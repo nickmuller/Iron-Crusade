@@ -79,7 +79,14 @@
                             <Spinner/> Opslaan...
                         </div>
                     }
-                    else if (player.IsKlaar)
+                    else if (isSavingError)
+                    {
+                        <div>
+                            Fout bij opslaan van workout...
+                        </div>
+                        <SpinnerButton Text="Opnieuw opslaan" Class="btn btn-blue" OnClick="Opslaan" />
+                    }
+                    else
                     {
                         <div>
                             Workout is opgeslagen!
@@ -166,6 +173,7 @@
 
     private Player? player;
     private bool saving;
+    private bool isSavingError;
 
     protected override void OnInitialized()
     {
@@ -212,40 +220,46 @@
     
     private void PlayerEind()
     {
-        InvokeAsync(async () =>
-        {
-            try
-            {
-                saving = true;
-                StateHasChanged();
-
-                if (player is null)
-                    throw new InvalidOperationException("player is null");
-                
-                if (player.WorkoutStart is null)
-                    throw new InvalidOperationException("player.WorkoutStart is null");
-                
-                if (player.WorkoutEind is null)
-                    throw new InvalidOperationException("player.WorkoutEind is null");
-                
-                await Http.PostAsJsonAsync("/api/CreateWorkoutLog", new WorkoutLogModel
-                {
-                    Categorie = player!.Categorie,
-                    WorkoutStart = player.WorkoutStart!.Value,
-                    WorkoutEind = player.WorkoutEind
-                });
-
-                saving = false;
-                StateHasChanged();
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, $"Exception in {nameof(PlayerEind)}");
-                throw;
-            }
-        });
+        InvokeAsync(Opslaan);
     }
 
+    private async Task Opslaan()
+    {
+        try
+        {
+            saving = true;
+            StateHasChanged();
+
+            if (player is null)
+                throw new InvalidOperationException("player is null");
+
+            if (player.WorkoutStart is null)
+                throw new InvalidOperationException("player.WorkoutStart is null");
+
+            if (player.WorkoutEind is null)
+                throw new InvalidOperationException("player.WorkoutEind is null");
+
+            var response = await Http.PostAsJsonAsync("/api/CreateWorkoutLog", new WorkoutLogModel
+            {
+                Categorie = player!.Categorie,
+                WorkoutStart = player.WorkoutStart!.Value,
+                WorkoutEind = player.WorkoutEind
+            });
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception e)
+        {
+            isSavingError = true;
+            Logger.LogError(e, $"Exception in {nameof(PlayerEind)}");
+            throw;
+        }
+        finally
+        {
+            saving = false;
+            StateHasChanged();
+        }
+    }
+    
     public void Dispose()
     {
         if (player != null)

@@ -85,7 +85,9 @@
 
     private async Task GewichtLoggen()
     {
-        await Http.PostAsJsonAsync("/api/CreatePersoonlijkeGegevensLog", gewicht);
+        var response = await Http.PostAsJsonAsync("/api/CreatePersoonlijkeGegevensLog", gewicht);
+        response.EnsureSuccessStatusCode();
+        
         await LogsOphalen();
     }
 
